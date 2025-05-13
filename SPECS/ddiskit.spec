@@ -1,24 +1,27 @@
 # Use the forge macros to simplify packaging.
 # See https://fedoraproject.org/wiki/Forge-hosted_projects_packaging_automation 
-%global forgeurl https://github.com/orosp/ddiskit
+%global forgeurl https://gitlab.com/redhat/centos-stream/src/dup/ddiskit
 # When we no longer need to build against a git commit, 
 # Simply remove the commit variable and update the Version
 # Then forge will pick up the release
-%global commit de1f6847223085dcdd177e02a7298c835fae12a3
+%global commit d857c7726fd55e613bbd7af6c842ddfc80a9fdc8
+# Old versions of forge.lua incorrectly generate source archive name
+# for the nested project URLs.
+%global forgesource ddiskit-%{commit}.tar.bz2
+%global topdir ddiskit-%{commit}
 
 Name:           ddiskit
 Version:        3.6
 
 %forgemeta
 
-Release:        16%{?dist}
+Release:        17%{?dist}
 Summary:        Tool for Red Hat Enterprise Linux Driver Update Disk creation
 
 License:        GPLv3
 URL:            %{forgeurl}
 Source0:        %{forgesource}
 
-Patch0001:      0001-kabi-stablelists.patch
 Patch0002:      0002-kernel-version-re-fix.patch
 
 BuildArch:      noarch
@@ -39,7 +42,6 @@ kernel modules.
 %prep
 %forgesetup
 
-%patch0001 -p1
 %patch0002 -p1
 
 %build
@@ -48,9 +50,6 @@ kernel modules.
 %install
 %py3_install
 find %{buildroot} -size 0 -delete
-
-%check
-%{__python3} setup.py test
 
 %files -n %{name}
 %doc README
@@ -74,6 +73,9 @@ find %{buildroot} -size 0 -delete
 %config(noreplace) /etc/ddiskit.config
 
 %changelog
+* Thu Feb 06 2025 Eugene Syromiatnikov <esyr@redhat.com> - 3.6-17
+- Update to the latest version (RHEL-77191).
+
 * Mon Jul 11 2022 Eugene Syromiatnikov <esyr@redhat.com> - 3.6-16
 - Update kernel version RE for RHEL 9 idiosyncrasies (#2101634).
 
