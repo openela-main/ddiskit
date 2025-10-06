@@ -1,0 +1,11 @@
+Index: ddiskit-4f4b76080f65109188b937c192a23aa0766348cf/setup.py
+===================================================================
+--- ddiskit-4f4b76080f65109188b937c192a23aa0766348cf.orig/setup.py	2025-01-13 18:52:40.000000000 +0100
++++ ddiskit-4f4b76080f65109188b937c192a23aa0766348cf/setup.py	2025-01-14 12:07:53.034758080 +0100
+@@ -22,5 +22,6 @@
+                 ('/usr/share/man/man1', ['ddiskit.1']),
+                 ('/etc', ['etc/ddiskit.config']),
+                 ],
++    packages=[],
+     scripts=['bin/ddiskit'],
+ )
